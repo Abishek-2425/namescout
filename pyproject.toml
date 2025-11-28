@@ -1,5 +1,5 @@
 [project]
-name = "namescout"
+name = "nscout"
 version = "0.1.0"
 description = "A lightweight CLI tool to check whether a package name is taken on PyPI and TestPyPI."
 readme = "README.md"
@@ -9,6 +9,8 @@ dependencies = ["httpx"]
 license = "MIT"
 
 authors = [{ name = "Abishek S", email = "abishek642005@gmail.com" }]
+
+keywords = ["namespace","registry","discovery","resolution","identifier"]
 
 classifiers = [
     "Development Status :: Beta",
@@ -20,7 +22,7 @@ classifiers = [
 
 # Setuptools package discovery
 [tool.setuptools.packages.find]
-include = ["namescout"]
+include = ["nscout"]
 
 [project.scripts]
-namescout = "namescout.cli:main"
+nscout = "nscout.cli:main"

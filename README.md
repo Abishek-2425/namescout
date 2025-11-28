@@ -1,4 +1,4 @@
-# **namescout**
+# **nscout**
 
 A small command-line tool for checking whether a package name is already taken on **PyPI** and **TestPyPI**.
 It queries PyPI’s public JSON endpoints and reports the results in a simple, readable format.
@@ -19,7 +19,7 @@ It queries PyPI’s public JSON endpoints and reports the results in a simple, r
 From PyPI (after publishing):
 
 ```bash
-pip install namescout
+pip install nscout
 ```
 
 For local development:
@@ -35,13 +35,13 @@ pip install -e .
 Run:
 
 ```bash
-namescout <package-name>
+nscout <package-name>
 ```
 
 Example:
 
 ```bash
-namescout requests
+nscout requests
 ```
 
 Output:
@@ -72,14 +72,14 @@ This makes the tool quick, reliable, and easy to use during package creation.
 Run directly from source:
 
 ```bash
-python -m namescout <package-name>
+python -m nscout <package-name>
 ```
 
 Project layout:
 
 ```
-namescout/
-├── namescout/
+nscout/
+├── nscout/
 │   ├── __init__.py
 │   ├── cli.py          # command-line interface
 │   └── checker.py      # availability logic

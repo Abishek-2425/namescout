@@ -1,32 +1,48 @@
 
-## **nscout**
+# **nscout** 
+nscout is a small, fast command-line tool for inspecting package name
+availability on **PyPI** and **TestPyPI**.  
+It also fetches **full metadata** when a package exists — including version,
+summary, authorship, license, release history, project URLs, and more.
 
-A small command-line tool for checking whether a package name is already taken on **PyPI** and **TestPyPI**.
-It queries PyPI’s public JSON endpoints and reports the results in a simple, readable format.
-
----
-
-## **Features**
-
-* Checks availability on both PyPI and TestPyPI
-* Supports checking **multiple package names** at once
-* Optional **JSON output** for scripts and CI (`--json`)
-* Optional **quiet mode** for clean automation (`--quiet`)
-* Predictable **exit codes** for automation workflows
-* Minimal dependencies, very fast
-* Works on Python 3.10+
+nscout is designed to be:
+- quick to use  
+- informative out of the box  
+- script-friendly  
+- safe for automation (JSON mode, quiet mode)  
+- ideal for package authors checking names before publishing
 
 ---
 
-## **Installation**
+## ✨ Features
 
-From PyPI:
+- Check whether a package name is **taken** or **not taken**
+- Automatic metadata fetch from PyPI:
+  - latest version
+  - summary/description
+  - author + author email
+  - license
+  - homepage & project URLs
+  - Python requirement
+  - release count
+  - latest release timestamp
+- Clean pretty layout for **single package** checks
+- Compact table layout for **multiple packages**
+- File mode (`-r file.txt`) for batch operations
+- JSON mode for scripts & CI tools
+- Quiet mode for log-friendly output
+- In-memory caching for ultra-fast repeated lookups
+- Works with both PyPI and TestPyPI
+
+---
+
+## 📦 Installation
 
 ```bash
 pip install nscout
 ````
 
-For local development:
+Or install locally during development:
 
 ```bash
 pip install -e .
@@ -34,44 +50,130 @@ pip install -e .
 
 ---
 
-## **Usage**
+## 🚀 Usage
 
-### Check a single package
+### **Check a single package**
 
 ```bash
 nscout requests
 ```
 
-### Check multiple names
+Example output:
 
-```bash
-nscout requests flask numpy
+```
+requests — taken
+Version:        2.32.5
+Summary:        Python HTTP for Humans.
+Author:         Kenneth Reitz
+Author Email:   me@kennethreitz.org
+License:        Apache-2.0
+Homepage:       https://requests.readthedocs.io
+Project URL:    https://pypi.org/project/requests/
+Python Req:     >=3.9
+Release Count:  157
+Latest Release: 2.32.5 (2025-08-18T20:46:00.542304Z)
 ```
 
-### JSON output (script/CI-friendly)
+---
+
+### **Check multiple packages**
 
 ```bash
-nscout requests flask --json
+nscout requests flyn numpy
 ```
 
 Output:
 
-```json
-{
-  "requests": { "pypi": "taken", "testpypi": "taken" },
-  "flask": { "pypi": "taken", "testpypi": "taken" }
-}
+```
+Name                 Status       Version      Summary
+---------------------------------------------------------------------------
+requests             taken        2.32.5       Python HTTP for Humans.
+flyn                 taken        0.1.8        Natural-language to shell command conver
+numpy                taken        2.3.5        Fundamental package for array computing
 ```
 
-### Quiet mode
+---
+
+### **File mode**
+
+Create a file:
+
+```
+requests
+numpy
+mynewpkg
+```
+
+Run:
 
 ```bash
-nscout requests --quiet
+nscout -r names.txt
 ```
 
-Produces minimal output without colors.
+---
 
-### Version
+### **JSON output (for CI / scripts)**
+
+```bash
+nscout --json requests
+```
+
+Example:
+
+```json
+[
+  {
+    "name": "requests",
+    "status": "taken",
+    "source": {
+      "pypi": { "taken": true },
+      "testpypi": { "taken": true }
+    },
+    "metadata": {
+      "version": "2.32.5",
+      "summary": "Python HTTP for Humans.",
+      "author": "Kenneth Reitz",
+      "author_email": "me@kennethreitz.org",
+      "license": "Apache-2.0",
+      "homepage": "https://requests.readthedocs.io",
+      "project_url": "https://pypi.org/project/requests/",
+      "project_urls": {
+        "Documentation": "https://requests.readthedocs.io",
+        "Homepage": "https://requests.readthedocs.io",
+        "Source": "https://github.com/psf/requests"
+      },
+      "requires_python": ">=3.9",
+      "requires_dist": [
+        "charset_normalizer<4,>=2",
+        "idna<4,>=2.5",
+        "urllib3<3,>=1.21.1",
+        "certifi>=2017.4.17"
+      ],
+      "release_count": 157,
+      "latest_release": {
+        "version": "2.32.5",
+        "timestamp": "2025-08-18T20:46:00.542304Z"
+      },
+      "all_versions": [...]
+    },
+    "error": null
+  }
+]
+```
+
+---
+
+### **Quiet mode**
+
+Disable colors and decoration:
+
+```bash
+nscout --quiet requests flyn numpy
+```
+
+---
+
+### **Version**
 
 ```bash
 nscout --version
@@ -79,61 +181,55 @@ nscout --version
 
 ---
 
-## **Exit Codes**
+## 🧠 Exit Codes
 
-These are useful in CI or automation:
+| Code | Meaning                      |
+| ---- | ---------------------------- |
+| 0    | All names available          |
+| 1    | At least one name is taken   |
+| 4    | Network error / PyPI failure |
 
-| Code | Meaning                            |
-| ---- | ---------------------------------- |
-| 0    | All names available                |
-| 1    | Name taken on PyPI                 |
-| 2–3  | (reserved for future expansion)    |
-| 4    | Network/server error during lookup |
-
----
-
-## **Why this tool exists**
-
-PyPI doesn’t have a dedicated “is this name available?” endpoint.
-This tool performs a lightweight check against PyPI’s JSON metadata URLs:
-
-* If the endpoint returns **404**, the name is **not taken**
-* A **200** means the name is already published
-* Any network or server issue is reported as `"error"`
-
-This keeps the tool fast, predictable, and convenient during package creation or CI validation.
+These are safe for CI pipelines.
 
 ---
 
-## **Development**
-
-Run directly from source:
-
-```bash
-python -m nscout <package-name>
-```
-
-Project layout:
+## 🏗 Project Structure
 
 ```
 nscout/
-├── nscout/
-│   ├── checker.py      # core logic
-│   ├── cli.py          # command line interface
-│   └── __init__.py
-├── pyproject.toml
-├── .gitignore
-└── README.md
+  checker.py    → availability & metadata logic
+  cli.py        → command-line interface
+  format.py     → pretty output & table layouts
+  cache.py      → in-memory caching
 ```
 
 ---
 
-## **Notes**
+## 🛠 Development
 
-nscout stays intentionally small and focused. The project aims to make early package development smoother—especially when reserving names, validating builds, or wiring CI checks.
+Install in editable mode:
 
-Contributions are welcome, as long as they preserve the tool’s simplicity and intention.
+```bash
+pip install -e .
+```
+
+Run the CLI:
+
+```bash
+python -m nscout.cli package_name
+```
 
 ---
 
-**Powered by Python, fueled by caffeine, guided by late-night curiosity.☕🚀**
+## 📤 Publishing
+
+```bash
+python -m build
+twine upload dist/*
+```
+
+---
+
+## ⚖️ License
+
+MIT

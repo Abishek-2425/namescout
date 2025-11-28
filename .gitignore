@@ -45,3 +45,5 @@ __pycache__/
 
 # python version
 .python-version
+
+*.egg-info/

@@ -1,16 +1,16 @@
 # **namescout**
 
-A lightweight command-line tool for checking whether a package name is already taken on **PyPI** and **TestPyPI**.
-It queries PyPI’s public JSON endpoints and reports results in a consistent, script-friendly format.
+A small command-line tool for checking whether a package name is already taken on **PyPI** and **TestPyPI**.
+It queries PyPI’s public JSON endpoints and reports the results in a simple, readable format.
 
 ---
 
 ## **Features**
 
-* Checks name availability on both PyPI and TestPyPI
-* Minimal dependencies, fast responses
-* Deterministic output format for automation
-* Compatible with Python 3.10+
+* Checks availability on both PyPI and TestPyPI
+* No special exit codes — clear human-readable output only
+* Minimal dependencies, very fast
+* Works on Python 3.10+
 
 ---
 
@@ -32,21 +32,13 @@ pip install -e .
 
 ## **Usage**
 
-Run a check:
+Run:
 
 ```bash
 namescout <package-name>
 ```
 
-### **Output format**
-
-```
-exit code : <code>
-PyPi : taken | not taken
-TestPyPi : taken | not taken
-```
-
-### Example
+Example:
 
 ```bash
 namescout requests
@@ -55,46 +47,35 @@ namescout requests
 Output:
 
 ```
-exit code : 1
 PyPi : taken
 TestPyPi : not taken
 ```
 
----
-
-## **Exit codes**
-
-These codes reflect the result from **PyPI**, since it is the authoritative source for package publishing:
-
-| Code | Meaning              |
-| ---- | -------------------- |
-| 0    | Name is not taken    |
-| 1    | Name is taken        |
-| 2    | Network or API error |
+The tool always prints exactly these two lines — no exit-code text.
 
 ---
 
 ## **Why this tool exists**
 
-PyPI does not offer a dedicated endpoint for checking name availability.
-`namescout` performs small, direct checks against the Warehouse JSON API:
+PyPI doesn’t have a dedicated “is this name available?” endpoint.
+This tool performs a lightweight check against PyPI’s JSON metadata URLs:
 
-* A **404 response** means the name does not exist → **not taken**
-* Any other status (200, 5xx, etc.) indicates the name exists or the service is unreachable
+* If the endpoint returns **404**, the name is **not taken**
+* Any other response means the name exists or the server is unreachable
 
-This makes it a reliable and efficient way to verify package name availability.
+This makes the tool quick, reliable, and easy to use during package creation.
 
 ---
 
 ## **Development**
 
-Run from source:
+Run directly from source:
 
 ```bash
 python -m namescout <package-name>
 ```
 
-Project structure:
+Project layout:
 
 ```
 namescout/
@@ -106,4 +87,5 @@ namescout/
 ├── README.md
 └── LICENSE
 ```
+
 ---

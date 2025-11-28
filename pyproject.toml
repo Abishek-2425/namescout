@@ -1,6 +1,6 @@
 [project]
 name = "nscout"
-version = "0.1.0"
+version = "0.1.1"
 description = "A lightweight CLI tool to check whether a package name is taken on PyPI and TestPyPI."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -13,11 +13,12 @@ authors = [{ name = "Abishek S", email = "abishek642005@gmail.com" }]
 keywords = ["namespace","registry","discovery","resolution","identifier"]
 
 classifiers = [
-    "Development Status :: Beta",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Programming Language :: Python",
     "Environment :: Console",
-    "Topic :: Utilities :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
 # Setuptools package discovery

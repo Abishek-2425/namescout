@@ -1,3 +1,4 @@
+
 ## **nscout**
 
 A small command-line tool for checking whether a package name is already taken on **PyPI** and **TestPyPI**.
@@ -8,7 +9,10 @@ It queries PyPI’s public JSON endpoints and reports the results in a simple, r
 ## **Features**
 
 * Checks availability on both PyPI and TestPyPI
-* No special exit codes — clear human-readable output only
+* Supports checking **multiple package names** at once
+* Optional **JSON output** for scripts and CI (`--json`)
+* Optional **quiet mode** for clean automation (`--quiet`)
+* Predictable **exit codes** for automation workflows
 * Minimal dependencies, very fast
 * Works on Python 3.10+
 
@@ -20,7 +24,7 @@ From PyPI:
 
 ```bash
 pip install nscout
-```
+````
 
 For local development:
 
@@ -32,26 +36,59 @@ pip install -e .
 
 ## **Usage**
 
-Run:
-
-```bash
-nscout <package-name>
-```
-
-Example:
+### Check a single package
 
 ```bash
 nscout requests
 ```
 
+### Check multiple names
+
+```bash
+nscout requests flask numpy
+```
+
+### JSON output (script/CI-friendly)
+
+```bash
+nscout requests flask --json
+```
+
 Output:
 
-```
-PyPi : taken
-TestPyPi : not taken
+```json
+{
+  "requests": { "pypi": "taken", "testpypi": "taken" },
+  "flask": { "pypi": "taken", "testpypi": "taken" }
+}
 ```
 
-The tool always prints exactly these two lines — no exit-code text.
+### Quiet mode
+
+```bash
+nscout requests --quiet
+```
+
+Produces minimal output without colors.
+
+### Version
+
+```bash
+nscout --version
+```
+
+---
+
+## **Exit Codes**
+
+These are useful in CI or automation:
+
+| Code | Meaning                            |
+| ---- | ---------------------------------- |
+| 0    | All names available                |
+| 1    | Name taken on PyPI                 |
+| 2–3  | (reserved for future expansion)    |
+| 4    | Network/server error during lookup |
 
 ---
 
@@ -61,9 +98,10 @@ PyPI doesn’t have a dedicated “is this name available?” endpoint.
 This tool performs a lightweight check against PyPI’s JSON metadata URLs:
 
 * If the endpoint returns **404**, the name is **not taken**
-* Any other response means the name exists or the server is unreachable
+* A **200** means the name is already published
+* Any network or server issue is reported as `"error"`
 
-This keeps the tool fast, predictable, and convenient during package creation.
+This keeps the tool fast, predictable, and convenient during package creation or CI validation.
 
 ---
 
@@ -86,19 +124,16 @@ nscout/
 ├── pyproject.toml
 ├── .gitignore
 └── README.md
-
 ```
-
-## **Notes**
-
-nscout stays intentionally small and focused. If it helps you ship cleaner packages, the project has done its job.
-
-It was built for the tiny moments that slow releases down, and smoothing even one step in your workflow makes it worthwhile.
-
-The project is open to thoughtful improvements and small quality-of-life contributions.
-
-Future growth will be deliberate—only in places where it clearly adds value, like lightweight automation hooks or CI-friendly helpers.
 
 ---
 
-**Powered by Python, fueled by caffeine, guided by late-night curiosity ☕🚀**
+## **Notes**
+
+nscout stays intentionally small and focused. The project aims to make early package development smoother—especially when reserving names, validating builds, or wiring CI checks.
+
+Contributions are welcome, as long as they preserve the tool’s simplicity and intention.
+
+---
+
+**Powered by Python, fueled by caffeine, guided by late-night curiosity.☕🚀**

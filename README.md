@@ -1,20 +1,50 @@
+<p align="center">
+  <img src="https://img.shields.io/badge/nscout-black?style=for-the-badge&logo=python&logoColor=white"><br><br>
+  <em>A fast, metadata-rich PyPI name inspector</em>
+</p>
+<p align="center">
+  <a href="https://pypi.org/project/nscout/"><img src="https://img.shields.io/pypi/v/nscout?color=4caf50&label=PyPI%20Version" alt="PyPI Version"></a>
+  <a href="https://pypi.org/project/nscout/"><img src="https://img.shields.io/pypi/pyversions/nscout?color=2196f3" alt="Python Versions"></a>
+  <a href="https://github.com/"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="License"></a>
+  <a href="https://pypi.org/project/nscout/#files"><img src="https://img.shields.io/badge/downloads-not%20yet%20tracked-lightgrey">
+</a>
+</p>
 
-# **nscout** 
-nscout is a small, fast command-line tool for inspecting package name
-availability on **PyPI** and **TestPyPI**.  
-It also fetches **full metadata** when a package exists — including version,
-summary, authorship, license, release history, project URLs, and more.
+<p align="center">
+  nscout checks PyPI and TestPyPI availability, extracts rich metadata,  
+  formats results into clean readable tables, and integrates perfectly into  
+  CI environments via JSON output.  
+  Blazing-fast in-memory caching keeps repeated lookups instant.
+</p>
 
-nscout is designed to be:
+
+---
+## nscout is designed to be:
 - quick to use  
 - informative out of the box  
 - script-friendly  
 - safe for automation (JSON mode, quiet mode)  
 - ideal for package authors checking names before publishing
 
----
 
-## ✨ Features
+## Why nscout?
+
+Choosing a package name sounds simple — until PyPI tells you it isn’t.  
+With more than half a million packages published, many good names are taken,  
+and simply knowing “yes/no” isn’t enough anymore.
+
+nscout gives you **the story behind the name**, not just the answer:
+
+- If a name is available → you're ready to publish.  
+- If it’s taken → you instantly see who owns it, how active it is,  
+  what it does, and whether it’s safe to choose something similar.  
+- If PyPI is having trouble → you get structured error information,  
+  not cryptic failures.
+
+It’s fast, scriptable, CI-friendly, and ideal for anyone publishing Python packages.
+
+
+## Features
 
 - Check whether a package name is **taken** or **not taken**
 - Automatic metadata fetch from PyPI:
@@ -233,3 +263,4 @@ twine upload dist/*
 ## ⚖️ License
 
 MIT
+

@@ -55,7 +55,7 @@ It’s fast, scriptable, reliable, and ideal for developers preparing packages.
 
 ---
 
-## ✨ Features
+## Features
 
 - Check whether a package name is **taken** or **not taken**
 - Automatic metadata fetch from PyPI:
@@ -79,7 +79,7 @@ It’s fast, scriptable, reliable, and ideal for developers preparing packages.
 
 ---
 
-## 📦 Installation
+## Installation
 
 ```bash
 pip install nscout
@@ -93,7 +93,7 @@ pip install -e .
 
 ---
 
-## 🚀 Usage
+## Usage
 
 ### **Check a single package**
 
@@ -211,7 +211,7 @@ nscout --version
 
 ---
 
-## 🧠 Exit Codes
+## Exit Codes
 
 | Code | Meaning                      |
 | ---- | ---------------------------- |
@@ -223,7 +223,7 @@ These codes are safe and predictable for CI pipelines.
 
 ---
 
-## 🏗 Project Structure
+## Project Structure
 
 ```
 nscout/
@@ -240,7 +240,7 @@ nscout/
 
 ---
 
-## 🛠 Development
+## Development
 
 Install in editable mode:
 
@@ -256,7 +256,7 @@ python -m nscout.cli package_name
 
 ---
 
-## 📤 Publishing
+## Publishing
 
 ```bash
 python -m build
@@ -265,7 +265,7 @@ twine upload dist/*
 
 ---
 
-## ⚠ Known Issues / Limitations
+## Known Issues / Limitations
 
 - PyPI sometimes throttles requests for frequently-updated packages.  
   nscout handles this gracefully, but rare transient `"error"` states may occur.
@@ -277,9 +277,9 @@ twine upload dist/*
 
 ---
 
-## 🧭 Roadmap
+## Roadmap
 
-### 🔜 Next planned features
+### Next planned features
 - **Detailed error classification**  
   Distinguish between timeout, DNS failure, PyPI 5xx, rate-limiting, etc.
 
@@ -295,7 +295,7 @@ twine upload dist/*
 - **Programmatic API**  
   Allow importing and using nscout as a library.
 
-### 🚀 Future ideas
+### Future ideas
 - Plugin system for custom registries (npm, crates.io, RubyGems)  
 - A web UI for package-name searching  
 - A GitHub Action that uses nscout to block publishing if a name is taken  
